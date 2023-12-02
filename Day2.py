@@ -8,10 +8,11 @@ input_file = 'Day' + str(dia) + '_Input.csv'
 text_file = open(input_file)
 lines = text_file.read().split('\n')
 
-def score(line):
+def score(line, part):
     red = 0
     green = 0
     blue = 0
+    rgb = 0
     game = int(line[5 : line.find(':', 0)])
     round = line.split('; ')
     round[0] = round[0][round[0].find(':', 0) + 2 : len(round[0])]
@@ -28,13 +29,21 @@ def score(line):
             elif cubes[1] == 'blue':
                 if int(cubes[0]) > blue:
                    blue = int(cubes[0])
-    if red <= 12 and green <= 13 and blue <= 14:
+    rgb = red * green * blue
+    if part == 1 and red <= 12 and green <= 13 and blue <= 14:
         return game
-    else:
-        return 0
+    elif part == 2:
+        return rgb
+    else: return 0
 
 # Part 1
 sum = 0
 for line in lines:
-    sum += score(line)
+    sum += score(line, 1)
 print("Part 1: " + str(sum))
+
+# Part 2
+sum = 0
+for line in lines:
+    sum += score(line, 2)
+print("Part 2: " + str(sum))
