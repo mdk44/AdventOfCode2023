@@ -30,16 +30,21 @@ def compare_nums(i):
     sum = 0
     nums = find_nums(lines[i])
     for j in range(0, len(nums)):
+        cnt = 0
         succ = 0
         y1, x1, y2, x2 = find_search_radius(i, nums[j], beg)
         beg = x2
         for y in range(y1, y2 + 1):
             for x in range(x1, x2 + 1):
-                try:
-                    if lines[y][x] not in ('.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'):
-                        succ = 1
-                except:
-                    print(y, x)
+                if lines[y][x] not in ('.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'):
+                    succ = 1
+                if lines[y][x] == '*':
+                    if points[y, x][0] == 0:
+                        cnt = 1
+                        points[y, x] = [int(nums[j]), cnt]
+                    else:
+                        cnt = 2
+                        points[y, x] = [points[y, x][0] * int(nums[j]), cnt]
         if succ == 1:
             sum += int(nums[j])
     return sum
@@ -49,9 +54,17 @@ def count_nums(inp):
     if len(nums) != len(list(set(nums))):
         print(nums)
 
+points = {}
+for i in range(0, len(lines)):
+    for j in range(0, len(lines[i])):
+        if lines[i][j] == '*':
+            points[i, j] = [0, 0]
+
 # Part 1
 cum_sum = 0
 for i in range(0, len(lines)):
     cum_sum += compare_nums(i)
-    
 print("Part 1: " + str(cum_sum))
+
+# Part 2
+print("Part 2: " + str(sum([x[0] for x in list(points.values()) if x[1] == 2])))
