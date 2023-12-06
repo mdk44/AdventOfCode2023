@@ -1,10 +1,13 @@
 import re
 
 dia = 4
+test = 0
 
-# input_file = 'Day' + str(dia) + '_Input.csv'
-input_file = 'Day' + str(dia) + '_Test.csv'
-# input_file = 'Day' + str(dia) + '_Test2.csv'
+if test == 1:
+    f = 'Test'
+else:
+    f = 'Input'
+input_file = 'Day' + str(dia) + '_' + f + '.csv'
 text_file = open(input_file)
 lines = text_file.read().split('\n')
 
@@ -50,6 +53,6 @@ for line in lines:
 
 for x in range(0, len(lines)):
     cnt = check_nums(lines[x])[1]
-    for i in range(x + 2, min(x + cnt + 2, len(lines))):
+    for i in range(x + 2, min(x + cnt + 2, len(lines) + 1)):
         cards['Card ' + str(i)] += cards['Card ' + str(x + 1)]
 print("Part 2: " + str(sum(cards.values())))
